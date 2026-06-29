@@ -10,11 +10,6 @@ import (
 	"github.com/spf13/afero"
 )
 
-// switchFlag is the subset of gloo.Switch[flags] this module accepts. Every
-// FindFs / FindName / FindType / FindMaxDepth value implements it, so the
-// variadic option list is type-checked at the call site.
-type switchFlag interface{ Configure(*flags) }
-
 // Find returns a Source that walks the tree rooted at path on the configured
 // filesystem and emits the path of every entry that passes the active filters.
 //
@@ -23,7 +18,7 @@ type switchFlag interface{ Configure(*flags) }
 //   - FindName(glob):    keep entries whose base name matches glob (GNU -name)
 //   - FindType("f"/"d"): keep only files or only directories (GNU -type)
 //   - FindMaxDepth(n):   descend at most n levels below the root (GNU -maxdepth)
-func Find(path string, opts ...switchFlag) gloo.Source[[]byte] {
+func Find(path string, opts ...gloo.Switch[flags]) gloo.Source[[]byte] {
 	cfg := defaults()
 	for _, o := range opts {
 		o.Configure(&cfg)

@@ -5,9 +5,10 @@ import (
 	"sort"
 	"testing"
 
-	find "github.com/gloo-foo/cmd-find/alias"
 	gloo "github.com/gloo-foo/framework"
 	"github.com/spf13/afero"
+
+	find "github.com/gloo-foo/cmd-find/alias"
 )
 
 // The alias package re-exports the constructor and flag values under unprefixed

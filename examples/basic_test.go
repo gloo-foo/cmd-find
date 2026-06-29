@@ -1,10 +1,10 @@
 package find_test
 
 import (
+	"github.com/gloo-foo/framework/patterns"
 	"github.com/spf13/afero"
 
 	find "github.com/gloo-foo/cmd-find"
-	"github.com/gloo-foo/framework/patterns"
 )
 
 func ExampleFind() {

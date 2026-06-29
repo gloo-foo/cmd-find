@@ -1,6 +1,9 @@
 package command
 
-import "github.com/spf13/afero"
+import (
+	gloo "github.com/gloo-foo/framework"
+	"github.com/spf13/afero"
+)
 
 // flags holds the parsed configuration of a find run. It is an immutable value
 // assembled by the framework's Switch mechanism before the walk begins.
@@ -18,7 +21,7 @@ type findFs struct{ afero.Fs }
 
 // FindFs sets the filesystem to walk. Tests pass FindFs{Fs: afero.NewMemMapFs()};
 // production omits it and the OS filesystem is used.
-func FindFs(fs afero.Fs) findFs { return findFs{Fs: fs} }
+func FindFs(fs afero.Fs) gloo.Switch[flags] { return findFs{Fs: fs} }
 
 func (f findFs) Configure(c *flags) { c.fs = f.Fs }
 
@@ -27,7 +30,7 @@ func (f findFs) Configure(c *flags) { c.fs = f.Fs }
 type namePattern string
 
 // FindName filters entries whose base name matches the glob pattern (GNU -name).
-func FindName(pattern string) namePattern { return namePattern(pattern) }
+func FindName(pattern string) gloo.Switch[flags] { return namePattern(pattern) }
 
 func (n namePattern) Configure(c *flags) { c.name = n }
 
@@ -44,7 +47,7 @@ const (
 // FindType filters entries by kind: "f" for files, "d" for directories. Any
 // other value imposes no restriction. Prefer the FindTypeFile / FindTypeDir
 // constants.
-func FindType(kind string) typeFilter { return typeFilter(kind) }
+func FindType(kind string) gloo.Switch[flags] { return typeFilter(kind) }
 
 func (t typeFilter) Configure(c *flags) { c.typeFilter = t }
 
@@ -57,6 +60,6 @@ const unlimitedDepth maxDepth = -1
 
 // FindMaxDepth limits the walk to entries at most n levels below the root. The
 // root itself is depth 0.
-func FindMaxDepth(n int) maxDepth { return maxDepth(n) }
+func FindMaxDepth(n int) gloo.Switch[flags] { return maxDepth(n) }
 
 func (d maxDepth) Configure(c *flags) { c.maxDepth = d }

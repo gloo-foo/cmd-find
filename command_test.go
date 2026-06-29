@@ -6,9 +6,10 @@ import (
 	"sort"
 	"testing"
 
-	command "github.com/gloo-foo/cmd-find"
 	gloo "github.com/gloo-foo/framework"
 	"github.com/spf13/afero"
+
+	command "github.com/gloo-foo/cmd-find"
 )
 
 // tree builds a fixed in-memory filesystem used across the tests:
